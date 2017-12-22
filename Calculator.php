@@ -1,40 +1,37 @@
 <?php
-
-/**
-* 
-*/
-require('./php-add-lib/AddCommand.php');
-require('./php-multi-lib/MultiCommand.php');
-
-
-
-
-if($a != NULL AND $b != NULL) // Puis on vérifie leur valeur ...
-    {
-        if($choix == division AND $b == 0)
-        {
-            echo 'On peut pas diviser par 0 voyons !';
-        }
-        else
-        {  
-            if($choix == addition)
-            {
-            $resultat = AddCommand::add($a, $b);
-            echo 'La somme de ces deux nombres est '.$resultat;
+include_once 'php-add-lib/AddCommand.php';
+include_once 'php-multi-lib/MultiCommand.php';
+class Calculator
+{
+    public function run() {
+        $line = 0;
+        while($line != "3") {
+            echo "Command available :\n1:\tAdd\n2:\tMulti\n3:\tQuit\n";
+            $line = readline("> ");
+            switch ($line) {
+                case "1":
+                    $a = readline("> a: ");
+                    $b = readline("> b: ");
+                    $com = new AddCommand($a);
+                    $c = $com->do($b);
+                    echo "c: $c\n";
+                    break;
+                case "2":
+                    $a = readline("> a: ");
+                    $b = readline("> b: ");
+                    $com = new MultiCommand($a);
+                    $c = $com->do($b);
+                    echo "c: $c\n";
+                    break;
+                case 3:
+                    break;
+                default:
+                    echo "Command not found ! Try again...\n";
             }
-             
-             
-            if($choix == multiplication)
-            {  
-            $resultat = MultiCommand::($a, $b);
-            echo 'Le produit de ces deux nombres est '.$resultat;
-            }
+            echo "\n";
         }
-        }
-    else // Si les champs n'ont pas étaient renseigné, on affiche un message d'erreur ...
-    {
-    echo 'Veuillez renseigner tous les champs.';
     }
 }
-
+$cal = new Calculator();
+$cal->run();
 ?>
